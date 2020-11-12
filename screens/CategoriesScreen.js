@@ -7,9 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import CategoryMeals from './CategoryMealsScreen';
 import { CATEGORIES } from '../data/dummy-data';
-import Colors from '../constants/Colors';
 
 const CategoriesScreen = (props) => {
   const renderGridItem = (itemData) => {
@@ -38,13 +36,9 @@ const CategoriesScreen = (props) => {
   );
 };
 
-CategoriesScreen.navigationOptions = {
-  title: 'Meal Categories',
-  headerStyle: {
-    backgroundColor: Colors.primaryColor,
-  },
-  headerTintColor: 'white',
-};
+// CategoriesScreen.navigationOptions = {
+//   title: 'Meal Categories',
+// };
 
 const styles = StyleSheet.create({
   screen: {
