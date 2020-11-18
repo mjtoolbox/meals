@@ -10,14 +10,18 @@ import FavoritesScreen from '../screens/FavoriteScreen';
 import FilterScreen from '../screens/FiltersScreen';
 import Colors from '../constants/Colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Platform } from 'react-native';
+import { Platform, Text } from 'react-native';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
 const defaultStackNavOptions = {
   headerStyle: {
-    backgroundColor: Colors.primaryColor,
+    backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
   },
-  headerTintColor: 'white',
+  headerTitleStyle: {
+    fontFamily: 'open-sans-bold',
+  },
+
+  headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor,
 };
 
 const MealsNavigator = createStackNavigator(
@@ -62,6 +66,12 @@ const tabScreenConfig = {
         );
       },
       tabBarColor: Colors.primaryColor,
+      tabBarLabel:
+        Platform.OS === 'android' ? (
+          <Text style={{ fontFamily: 'open-sans' }}>Meals</Text>
+        ) : (
+          'Meals'
+        ),
     },
   },
   Favorites: {
@@ -93,6 +103,9 @@ const MealsFavTabNavigator =
       })
     : createBottomTabNavigator(tabScreenConfig, {
         tabBarOptions: {
+          labelStyle: {
+            fontFamily: 'open-sans',
+          },
           activeTintColor: Colors.accentColor,
         },
       });
