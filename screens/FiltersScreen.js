@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, Text, View, Switch } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
@@ -19,10 +19,29 @@ const FilterSwitch = (props) => {
 };
 
 const FiltersScreen = (props) => {
+  // Deconstruct the props into navigation
+  const { navigation } = props;
+
   const [isGlutenFree, setIsGlutenFree] = useState(false);
   const [isLactoseFree, setIsLactoseFree] = useState(false);
   const [isVegan, setIsVegan] = useState(false);
   const [isVegetarian, setIsVegetarian] = useState(false);
+
+  // Any [] state changes, callback will create saveFilter function. Other changes, function will not be created.
+  const saveFilters = useCallback(() => {
+    const appliedFilters = {
+      glutenFree: isGlutenFree,
+      lactoseFree: isLactoseFree,
+      vegan: isVegan,
+      isVegetarian: isVegetarian,
+    };
+    console.log(appliedFilters);
+  }, [isGlutenFree, isLactoseFree, isVegetarian, isVegan]);
+
+  // Execute only navigation changes, not other props.
+  useEffect(() => {
+    navigation.setParams({ save: saveFilters });
+  }, [saveFilters]);
 
   return (
     <View style={styles.screen}>
@@ -69,9 +88,7 @@ FiltersScreen.navigationOptions = (navigationData) => {
         <Item
           title='Save'
           iconName='save'
-          onPress={() => {
-            console.log('saved');
-          }}
+          onPress={navigationData.navigation.getParam('save')}
         ></Item>
       </HeaderButtons>
     ),
